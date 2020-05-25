@@ -42,8 +42,3 @@ def test_multiply_a():
 #     pytest.main()
 
 
-git测试
-
-
-## 修复bug
-#商城100%完成
