@@ -1,2 +1,0 @@
-import hwylogin
-hwylogin.login()

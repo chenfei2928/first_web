@@ -2,6 +2,13 @@ from selenium import webdriver
 from PIL import Image
 import pytesseract
 import re
+import time
+
+wb = webdriver.Chrome(r'D:\develop_study\chromedriver\chromedriver') #加载驱动
+wb.get('http://192.168.10.233:8080/marsCloud/loginController.do?login')
+wb.maximize_window()
+wb.implicitly_wait(5) # 隐式等待
+
 
 def security_code(wb):
     wb.save_screenshot('D:\\security_code\\printscreen.png')  # 截屏
@@ -48,14 +55,15 @@ def add_document(wb):
 
     wb.switch_to.frame(xck)  # 切换到新窗口 iframe
 
-    wb.find_element_by_xpath('//*[@id="formobj"]/table/tbody/tr[1]/td[2]/input').send_keys('五道口项目')  # 项目名称
-    wb.find_element_by_xpath('/html/body/div[1]/div[2]/form/table/tbody/tr[1]/td[4]/input').send_keys('五道口')  # 项目简称
+    wb.find_element_by_xpath('//*[@id="formobj"]/table/tbody/tr[1]/td[4]/input').send_keys('五道口')  # 项目简称
+
+    wb.find_element_by_xpath('//*[@id="formobj"]/table/tbody/tr[2]/td[2]/input').send_keys('五道口项目')  # 项目名称
 
     from selenium.webdriver.support.ui import Select  # 导入Select类
     select = Select(wb.find_element_by_xpath('//*[@id="formobj"]/table/tbody/tr[2]/td[4]/select'))  # 创建Select对象
     select.select_by_visible_text('城区+村镇')  # 项目类型
 
-    wb.find_element_by_xpath('/html/body/div[1]/div[2]/form/table/tbody/tr[3]/td[2]/input').send_keys('曹操')  # 项目负责人
+    wb.find_element_by_xpath('//*[@id="formobj"]/table/tbody/tr[3]/td[2]/input').send_keys('曹操')  # 项目负责人
     wb.find_element_by_xpath('/html/body/div[1]/div[2]/form/table/tbody/tr[3]/td[4]/input').send_keys(
         '18612345678')  # 项目负责人电话
 
@@ -88,6 +96,7 @@ def add_document(wb):
     wb.find_element_by_xpath(
         '/html/body/div[2]/table/tbody/tr[2]/td[2]/div/table/tbody/tr[3]/td/div/input[1]').click()  # 提交
     # 提交无效，应该是对应不同frame。下周一对比下iframe路径。
+    time.sleep(3)
 
     print('--项目信息录入完成--')
 
@@ -99,15 +108,10 @@ def login(wb):
     wb.find_element_by_id('randCode').send_keys(yzm)
     wb.find_element_by_id('but_login').click()
 
-def main():
-    wb = webdriver.Chrome(r'D:\develop_study\chromedriver\chromedriver') #加载驱动
-    wb.get('http://192.168.10.233:8080/marsCloud/loginController.do?login')
-    wb.maximize_window()
-    wb.implicitly_wait(5) # 隐式等待
 
-    login(wb)
-    add_document(wb)
 
-main()
+login(wb)
+add_document(wb)
+
 
 

@@ -18,7 +18,7 @@ class forTestTest(unittest.TestCase):
     #     self.driver.find_element_by_id('su').click()
 
     @data(('二哈','三十而立'),('异常帅气的虚竹','kkkkkkkkkkk'))
-    @unpack
+    @unpack # 解包
     def test_2(self,txt,p):
         print(txt)
         print(p)
